@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agenda BAB – Bayonne · Anglet · Biarritz</title>
+  <meta name="description" content="L'agenda culturel et sportif de la région Bayonne-Anglet-Biarritz et du Pays Basque." />
+
+  <!-- Fonts: Playfair Display (editorial) + DM Sans (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Reset & Base ───────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:   #1C6B4A;
+      --green2:  #2D8B62;
+      --green-lt:#E8F5EF;
+      --red:     #C0392B;
+      --sand:    #F5F0E8;
+      --ink:     #1A1A1A;
+      --ink2:    #4A4A4A;
+      --ink3:    #888;
+      --white:   #FFFFFF;
+      --border:  rgba(0,0,0,0.09);
+      --radius:  10px;
+      --shadow:  0 2px 12px rgba(0,0,0,0.07);
+
+      /* Category colors */
+      --sport:   #1565C0;
+      --culture: #6A1B9A;
+      --music:   #BF360C;
+      --festival:#E65100;
+      --nature:  #2E7D32;
+      --other:   #546E7A;
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--sand);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    /* ── Illustrated Header ─────────────────────────────── */
+    .site-header {
+      background: #F5F0E8;
+      color: var(--ink);
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-pattern { display: none; }
+
+    .header-illustration {
+      position: absolute;
+      inset: 0;
+      background: url('header-illustration.png') center center / cover no-repeat;
+      opacity: 0.92;
+    }
+
+    .header-inner {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 1.25rem;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      min-height: 180px;
+    }
+
+    .site-brand h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: var(--ink);
+      text-shadow: 0 1px 3px rgba(255,255,255,0.8);
+    }
+
+    .site-brand h1 em {
+      font-style: italic;
+      color: var(--ink2);
+    }
+
+    .site-brand .tagline {
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink2);
+      margin-top: 0.4rem;
+      text-shadow: 0 1px 2px rgba(255,255,255,0.7);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .last-refresh {
+      font-size: 0.72rem;
+      color: var(--ink3);
+      font-weight: 300;
+    }
+
+    .btn-refresh {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+    .btn-refresh:hover { background: rgba(255,255,255,0.25); }
+    .btn-refresh:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-refresh svg { flex-shrink: 0; }
+    .btn-refresh.spinning svg { animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Nav tabs */
+    .nav-tabs {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      gap: 0;
+      position: relative;
+    }
+
+    .nav-tab {
+      padding: 0.7rem 1.4rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--ink3);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+      background: none;
+      border-left: none; border-right: none; border-top: none;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .nav-tab:hover { color: var(--ink); }
+    .nav-tab.active { color: var(--ink); border-bottom-color: var(--green); }
+
+    /* ── Main Layout ────────────────────────────────────── */
+    .main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 4rem;
+    }
+
+    /* ── Toolbar (filters + nav) ────────────────────────── */
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      padding: 1rem 1.25rem;
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink3);
+      margin-right: 0.2rem;
+    }
+
+    .pill {
+      padding: 0.3rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1.5px solid transparent;
+      transition: all 0.15s;
+      background: transparent;
+      color: var(--ink2);
+      border-color: var(--border);
+      font-family: 'DM Sans', sans-serif;
+    }
+    .pill:hover { border-color: rgba(0,0,0,0.2); }
+    .pill.active[data-cat="all"]     { background: var(--green);   color: white; border-color: var(--green); }
+    .pill.active[data-cat="sport"]   { background: var(--sport);   color: white; border-color: var(--sport); }
+    .pill.active[data-cat="culture"] { background: var(--culture); color: white; border-color: var(--culture); }
+    .pill.active[data-cat="music"]   { background: var(--music);   color: white; border-color: var(--music); }
+    .pill.active[data-cat="festival"]{ background: var(--festival);color: white; border-color: var(--festival); }
+    .pill.active[data-cat="nature"]  { background: var(--nature);  color: white; border-color: var(--nature); }
+
+    .toolbar-sep { width: 1px; height: 28px; background: var(--border); flex-shrink: 0; }
+
+    /* Month navigator */
+    .month-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-left: auto;
+    }
+
+    .month-nav button {
+      width: 30px; height: 30px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: transparent;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.12s;
+      color: var(--ink);
+    }
+    .month-nav button:hover { background: var(--sand); }
+
+    .month-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      min-width: 160px;
+      text-align: center;
+    }
+
+    /* ── Status banner ──────────────────────────────────── */
+    .status-banner {
+      padding: 0.65rem 1rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      margin-bottom: 1rem;
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .status-banner.info  { background: #E8F4FD; color: #1565C0; border: 1px solid #BBDEFB; }
+    .status-banner.ok    { background: #E8F5E9; color: #2E7D32; border: 1px solid #C8E6C9; }
+    .status-banner.error { background: #FEEBE9; color: var(--red); border: 1px solid #FFCDD2; }
+    .status-banner.show  { display: flex; }
+
+    /* ── Calendar Grid ──────────────────────────────────── */
+    #calView { display: block; }
+    #listView { display: none; }
+
+    .cal-grid {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .cal-days-header {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      background: var(--green);
+    }
+
+    .cal-day-name {
+      text-align: center;
+      padding: 0.6rem 0;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+    }
+    .cal-day-name.weekend { color: rgba(255,220,100,0.85); }
+
+    .cal-body {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0;
+    }
+
+    .cal-cell {
+      min-height: 110px;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 0.4rem 0.45rem 0.35rem;
+      cursor: pointer;
+      transition: background 0.1s;
+      position: relative;
+      overflow: hidden;
+    }
+    .cal-cell:nth-child(7n) { border-right: none; }
+    .cal-cell:hover { background: rgba(28,107,74,0.04); }
+    .cal-cell.other { opacity: 0.35; }
+    .cal-cell.today { background: var(--green-lt); }
+    .cal-cell.today .day-num { background: var(--green); color: white; }
+    .cal-cell.weekend .day-num { color: var(--red); }
+
+    .day-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      font-size: 0.78rem;
+      font-weight: 500;
+      margin-bottom: 0.3rem;
+      color: var(--ink);
+    }
+
+    .ev-chip {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 500;
+      border-radius: 3px;
+      padding: 1px 5px;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: white;
+      line-height: 1.5;
+    }
+
+    .more-count {
+      font-size: 0.65rem;
+      color: var(--ink3);
+      margin-top: 2px;
+    }
+
+    /* ── List View ──────────────────────────────────────── */
+    .list-empty {
+      text-align: center;
+      padding: 3rem;
+      color: var(--ink3);
+      font-size: 0.9rem;
+    }
+
+    .list-month-group { margin-bottom: 2rem; }
+
+    .list-month-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--green);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .list-day-section { margin-bottom: 1rem; }
+
+    .list-day-header {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink3);
+      margin-bottom: 0.4rem;
+    }
+
+    .ev-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 0.4rem;
+      cursor: pointer;
+      transition: box-shadow 0.12s, transform 0.12s;
+    }
+    .ev-row:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); transform: translateY(-1px); }
+
+    .ev-row-bar { width: 3px; border-radius: 2px; align-self: stretch; flex-shrink: 0; }
+
+    .ev-row-body { flex: 1; min-width: 0; }
+    .ev-row-title { font-size: 0.92rem; font-weight: 500; color: var(--ink); }
+    .ev-row-meta  { font-size: 0.78rem; color: var(--ink3); margin-top: 0.15rem; }
+
+    .cat-badge {
+      font-size: 0.65rem;
+      font-weight: 500;
+      padding: 2px 7px;
+      border-radius: 10px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+      align-self: flex-start;
+    }
+
+    /* ── Modal ──────────────────────────────────────────── */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
+      display: flex; align-items: center; justify-content: center;
+      padding: 1rem;
+      animation: fadeIn 0.15s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .modal-box {
+      background: var(--white);
+      border-radius: 14px;
+      width: min(480px, 100%);
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      animation: slideUp 0.2s ease;
+    }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    .modal-top-bar { height: 5px; border-radius: 14px 14px 0 0; }
+
+    .modal-content { padding: 1.5rem; }
+
+    .modal-cat-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.75rem;
+    }
+
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 1rem;
+      color: var(--ink);
+    }
+
+    .modal-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--ink2);
+      margin-bottom: 0.4rem;
+    }
+
+    .modal-icon { font-size: 1rem; flex-shrink: 0; }
+
+    .modal-desc {
+      margin-top: 1rem;
+      font-size: 0.87rem;
+      line-height: 1.6;
+      color: var(--ink2);
+    }
+
+    .modal-footer {
+      margin-top: 1.25rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .modal-source { font-size: 0.75rem; color: var(--ink3); }
+    .modal-source a { color: var(--green); text-decoration: none; }
+    .modal-source a:hover { text-decoration: underline; }
+
+    .modal-close-btn {
+      padding: 0.45rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: transparent;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--ink2);
+      transition: background 0.12s;
+    }
+    .modal-close-btn:hover { background: var(--sand); }
+
+    /* ── Loading skeleton ───────────────────────────────── */
+    .skeleton {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 4px;
+    }
+    @keyframes shimmer { to { background-position: -200% 0; } }
+
+
+    /* Settings panel */
+    .settings-btn { display:flex; align-items:center; gap:.4rem; background:rgba(255,255,255,0.75); border:1px solid rgba(0,0,0,.12); color:var(--ink); padding:.5rem .9rem; border-radius:6px; font-size:.82rem; font-family:'DM Sans',sans-serif; font-weight:500; cursor:pointer; transition:background .15s; box-shadow:0 2px 8px rgba(0,0,0,.1); backdrop-filter:blur(4px); }
+    .settings-btn:hover { background:rgba(255,255,255,0.95); }
+    .settings-panel { background:var(--white); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); padding:1.25rem 1.5rem; margin-bottom:1.25rem; display:none; }
+    .settings-panel.open { display:block; }
+    .settings-title { font-size:.78rem; font-weight:500; text-transform:uppercase; letter-spacing:.08em; color:var(--ink3); margin-bottom:1rem; }
+    .settings-row { display:flex; flex-wrap:wrap; gap:.75rem; }
+    .settings-option { flex:1; min-width:180px; border:1.5px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; cursor:pointer; transition:border-color .15s, background .15s; position:relative; }
+    .settings-option:hover { border-color:rgba(0,0,0,.2); }
+    .settings-option.selected { border-color:var(--green); background:var(--green-lt); }
+    .settings-option input[type=checkbox] { position:absolute; top:.85rem; right:1rem; width:16px; height:16px; accent-color:var(--green); cursor:pointer; }
+    .settings-option-title { font-size:.88rem; font-weight:500; color:var(--ink); margin-bottom:.3rem; padding-right:1.5rem; }
+    .settings-option-desc { font-size:.76rem; color:var(--ink3); line-height:1.4; }
+    .settings-option-sources { margin-top:.5rem; font-size:.7rem; color:var(--green); line-height:1.6; }
+    .settings-footer { margin-top:1rem; padding-top:.75rem; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.5rem; }
+    .settings-save { background:var(--green); color:white; border:none; padding:.45rem 1.1rem; border-radius:6px; font-size:.82rem; font-family:'DM Sans',sans-serif; font-weight:500; cursor:pointer; }
+    .settings-save:hover { background:#0F6E56; }
+    .settings-note { font-size:.75rem; color:var(--ink3); }
+    /* ── Footer ─────────────────────────────────────────── */
+    .site-footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.75rem;
+      color: var(--ink3);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Responsive ─────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .main { padding: 1rem 1rem 3rem; }
+      .header-inner { padding: 1.25rem 1rem 1rem; }
+      .nav-tabs { padding: 0 1rem; }
+      .toolbar { padding: 0.75rem; gap: 0.5rem; }
+      .month-nav { margin-left: 0; width: 100%; justify-content: center; }
+      .cal-cell { min-height: 70px; padding: 0.25rem; }
+      .ev-chip { display: none; }
+      .cal-cell .more-count { font-size: 0.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Site Header ──────────────────────────────── -->
+<header class="site-header">
+  <div class="header-illustration"></div>
+  <div class="header-inner">
+    <div class="site-brand">
+      <h1>Agenda <em>BAB</em></h1>
+      <p class="tagline">Bayonne · Anglet · Biarritz · Pays Basque</p>
+    </div>
+    <div class="header-actions">
+      <span class="last-refresh" id="lastRefreshLabel"></span>
+      <button class="settings-btn" onclick="toggleSettings()">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2" stroke="currentColor" stroke-width="1.4"/><path d="M7 1v1.5M7 11.5V13M1 7h1.5M11.5 7H13M2.93 2.93l1.06 1.06M10.01 10.01l1.06 1.06M2.93 11.07l1.06-1.06M10.01 3.99l1.06-1.06" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        Sources
+      </button>
+      <button class="btn-refresh" id="refreshBtn" onclick="triggerRefresh()">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" id="refreshIcon">
+          <path d="M7 2A5 5 0 1 1 2 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M2 3.5V7H5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Actualiser
+      </button>
+    </div>
+  </div>
+  <nav class="nav-tabs">
+    <button class="nav-tab active" onclick="setView('cal')">Calendrier</button>
+    <button class="nav-tab" onclick="setView('list')">Liste</button>
+  </nav>
+</header>
+
+<!-- ── Main ─────────────────────────────────────── -->
+<main class="main">
+
+  <!-- Status banner -->
+  <div class="status-banner" id="statusBanner"></div>
+
+  <!-- Settings panel -->
+  <div class="settings-panel" id="settingsPanel">
+    <div class="settings-title">Sources des événements</div>
+    <div class="settings-row">
+      <div class="settings-option selected" id="opt-scraper" onclick="toggleOption('scraper')">
+        <input type="checkbox" id="chk-scraper" checked onchange="toggleOption('scraper')" onclick="event.stopPropagation()" />
+        <div class="settings-option-title">Sites web locaux</div>
+        <div class="settings-option-desc">Scrape directement les sites officiels de la région. Rapide, gratuit, aucune clé API requise.</div>
+        <div class="settings-option-sources">
+          guide-du-paysbasque.com<br>
+          atabal-biarritz.fr · scenenationale.fr<br>
+          loco-motive.fr · la-rhapsodie.com<br>
+          lageneraleanglet.com · mbh.bayonne.fr<br>
+          bayonne.fr · destination-biarritz.fr
+        </div>
+      </div>
+      <div class="settings-option" id="opt-ai" onclick="toggleOption('ai')">
+        <input type="checkbox" id="chk-ai" onchange="toggleOption('ai')" onclick="event.stopPropagation()" />
+        <div class="settings-option-title">Recherche IA (Anthropic) <span id="ai-status-badge" style="font-size:.68rem;padding:1px 6px;border-radius:8px;font-weight:500;margin-left:4px"></span></div>
+        <div class="settings-option-desc">Utilise Claude + recherche web pour découvrir des événements supplémentaires au-delà des sites listés.</div>
+        <div class="settings-option-sources">
+          Recherche intelligente sur tout le web<br>
+          Couvre les événements non référencés<br>
+          <span id="ai-key-note">Nécessite une clé API Anthropic</span>
+        </div>
+      </div>
+    </div>
+    <div class="settings-footer">
+      <span class="settings-note" id="settingsNote">Mode actuel : <strong>Sites web locaux</strong></span>
+      <button class="settings-save" onclick="saveSettings()">Enregistrer &amp; Actualiser</button>
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <span class="filter-label">Filtrer :</span>
+    <div class="filter-group" id="catFilters">
+      <button class="pill active" data-cat="all"     onclick="toggleCat('all')">Tout</button>
+      <button class="pill"        data-cat="sport"   onclick="toggleCat('sport')">🏄 Sport</button>
+      <button class="pill"        data-cat="culture" onclick="toggleCat('culture')">🎨 Culture</button>
+      <button class="pill"        data-cat="music"   onclick="toggleCat('music')">🎵 Musique</button>
+      <button class="pill"        data-cat="festival"onclick="toggleCat('festival')">🎉 Festival</button>
+      <button class="pill"        data-cat="nature"  onclick="toggleCat('nature')">🌿 Nature</button>
+    </div>
+    <div class="toolbar-sep"></div>
+    <div class="month-nav">
+      <button onclick="changeMonth(-1)">&#8249;</button>
+      <span class="month-label" id="monthLabel"></span>
+      <button onclick="changeMonth(1)">&#8250;</button>
+    </div>
+  </div>
+
+  <!-- Calendar view -->
+  <div id="calView">
+    <div class="cal-grid">
+      <div class="cal-days-header">
+        <div class="cal-day-name">Lun</div>
+        <div class="cal-day-name">Mar</div>
+        <div class="cal-day-name">Mer</div>
+        <div class="cal-day-name">Jeu</div>
+        <div class="cal-day-name">Ven</div>
+        <div class="cal-day-name weekend">Sam</div>
+        <div class="cal-day-name weekend">Dim</div>
+      </div>
+      <div class="cal-body" id="calBody"></div>
+    </div>
+  </div>
+
+  <!-- List view -->
+  <div id="listView">
+    <div id="listBody"></div>
+  </div>
+
+</main>
+
+<!-- Modal -->
+<div id="modal" style="display:none"></div>
+
+<!-- Footer -->
+<footer class="site-footer">
+  Agenda BAB &mdash; Évènements de la région Bayonne·Anglet·Biarritz &amp; Pays Basque
+  &mdash; Données actualisées automatiquement chaque jour
+</footer>
+
+<script>
+// ── Config ───────────────────────────────────────────────────────────────────
+const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? `http://localhost:${window.location.port || 3001}`
+  : '';
+
+const CAT_COLORS = {
+  sport:   '#1565C0',
+  culture: '#6A1B9A',
+  music:   '#BF360C',
+  festival:'#E65100',
+  nature:  '#2E7D32',
+  other:   '#546E7A',
+};
+
+const CAT_LABELS = {
+  sport:'Sport', culture:'Culture', music:'Musique',
+  festival:'Festival', nature:'Nature', other:'Autre'
+};
+
+const MONTHS_FR = ['Janvier','Février','Mars','Avril','Mai','Juin',
+                   'Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+const DAYS_FULL  = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
+
+// ── State ────────────────────────────────────────────────────────────────────
+let allEvents   = [];
+let activeCat   = 'all';
+let currentView = 'cal';
+let selYear     = new Date().getFullYear();
+let selMonth    = new Date().getMonth();
+
+// ── Boot ─────────────────────────────────────────────────────────────────────
+(async function init() {
+  updateMonthLabel();
+  await loadEvents();
+  render();
+})();
+
+// ── Data ─────────────────────────────────────────────────────────────────────
+async function loadEvents() {
+  try {
+    const res = await fetch(`${API_BASE}/api/events`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    allEvents = data.events || [];
+    if (data.lastRefresh) {
+      const d = new Date(data.lastRefresh);
+      document.getElementById('lastRefreshLabel').textContent =
+        'Mis à jour le ' + d.toLocaleDateString('fr-FR', { day:'numeric', month:'short' });
+    }
+  } catch (e) {
+    showStatus('Impossible de charger les événements depuis le serveur.', 'error');
+  }
+}
+
+async function triggerRefresh() {
+  const btn  = document.getElementById('refreshBtn');
+  const icon = document.getElementById('refreshIcon');
+  btn.disabled = true;
+  btn.classList.add('spinning');
+  icon.style.animation = 'spin 1s linear infinite';
+  showStatus('Recherche des événements en cours…', 'info');
+
+  try {
+    const res = await fetch(`${API_BASE}/api/refresh`, { method: 'POST' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    allEvents = data.events || allEvents;
+    showStatus(`✓ ${data.count} événements actualisés depuis le web.`, 'ok', 5000);
+    if (data.lastRefresh) {
+      document.getElementById('lastRefreshLabel').textContent =
+        'Mis à jour ' + new Date().toLocaleDateString('fr-FR', { day:'numeric', month:'short' });
+    }
+    render();
+  } catch (e) {
+    showStatus('Erreur lors de l\'actualisation. Vérifiez la connexion au serveur.', 'error', 6000);
+  } finally {
+    btn.disabled = false;
+    btn.classList.remove('spinning');
+    icon.style.animation = '';
+  }
+}
+
+// ── Filters ──────────────────────────────────────────────────────────────────
+function toggleCat(cat) {
+  activeCat = cat;
+  document.querySelectorAll('.pill').forEach(p =>
+    p.classList.toggle('active', p.dataset.cat === cat)
+  );
+  render();
+}
+
+function filteredEvents() {
+  if (activeCat === 'all') return allEvents;
+  return allEvents.filter(e => e.cat === activeCat);
+}
+
+function eventsOnDate(ds) {
+  return filteredEvents().filter(e => e.date === ds);
+}
+
+// ── View switching ───────────────────────────────────────────────────────────
+function setView(v) {
+  currentView = v;
+  document.getElementById('calView').style.display  = v === 'cal'  ? 'block' : 'none';
+  document.getElementById('listView').style.display = v === 'list' ? 'block' : 'none';
+  document.querySelectorAll('.nav-tab').forEach((t, i) =>
+    t.classList.toggle('active', (i === 0 && v === 'cal') || (i === 1 && v === 'list'))
+  );
+  render();
+}
+
+function changeMonth(d) {
+  selMonth += d;
+  if (selMonth > 11) { selMonth = 0; selYear++; }
+  if (selMonth <  0) { selMonth = 11; selYear--; }
+  updateMonthLabel();
+  render();
+}
+
+function updateMonthLabel() {
+  document.getElementById('monthLabel').textContent = `${MONTHS_FR[selMonth]} ${selYear}`;
+}
+
+// ── Render ───────────────────────────────────────────────────────────────────
+function render() {
+  if (currentView === 'cal') renderCal();
+  else renderList();
+}
+
+function dStr(y, m, d) {
+  return `${y}-${String(m + 1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+}
+
+function renderCal() {
+  const today  = new Date();
+  const body   = document.getElementById('calBody');
+  const first  = new Date(selYear, selMonth, 1);
+  const dow    = (first.getDay() + 6) % 7; // Monday = 0
+  const inMonth= new Date(selYear, selMonth + 1, 0).getDate();
+  const inPrev = new Date(selYear, selMonth, 0).getDate();
+  let html = '';
+
+  const cells = [];
+  for (let i = dow - 1; i >= 0; i--)
+    cells.push({ d: inPrev - i, m: selMonth - 1, y: selYear, other: true });
+  for (let d = 1; d <= inMonth; d++)
+    cells.push({ d, m: selMonth, y: selYear, other: false });
+  while (cells.length < 42)
+    cells.push({ d: cells.length - inMonth - dow + 1, m: selMonth + 1, y: selYear, other: true });
+
+  for (const c of cells) {
+    const ry = c.m < 0 ? c.y - 1 : c.m > 11 ? c.y + 1 : c.y;
+    const rm = c.m < 0 ? 11       : c.m > 11 ? 0        : c.m;
+    const ds = dStr(ry, rm, c.d);
+    const evs = eventsOnDate(ds);
+    const isToday = today.getFullYear() === ry && today.getMonth() === rm && today.getDate() === c.d;
+    const dow2 = new Date(ry, rm, c.d).getDay();
+    const isWE = dow2 === 0 || dow2 === 6;
+
+    html += `<div class="cal-cell${c.other ? ' other' : ''}${isToday ? ' today' : ''}${isWE ? ' weekend' : ''}"
+              onclick="dayClick('${ds}')">`;
+    html += `<div class="day-num">${c.d}</div>`;
+    evs.slice(0, 2).forEach(e => {
+      const col = CAT_COLORS[e.cat] || CAT_COLORS.other;
+      html += `<span class="ev-chip" style="background:${col}" title="${esc(e.title)}">${esc(e.title)}</span>`;
+    });
+    if (evs.length > 2) html += `<div class="more-count">+${evs.length - 2}</div>`;
+    html += `</div>`;
+  }
+  body.innerHTML = html;
+}
+
+function renderList() {
+  const body = document.getElementById('listBody');
+  const evs = filteredEvents().slice().sort((a, b) => a.date.localeCompare(b.date));
+
+  if (evs.length === 0) {
+    body.innerHTML = `<div class="list-empty">Aucun événement trouvé.<br>Essayez un autre filtre ou actualisez les données.</div>`;
+    return;
+  }
+
+  // Group by month then by day
+  const byMonth = {};
+  evs.forEach(e => {
+    const [y, m] = e.date.split('-');
+    const mk = `${y}-${m}`;
+    if (!byMonth[mk]) byMonth[mk] = {};
+    if (!byMonth[mk][e.date]) byMonth[mk][e.date] = [];
+    byMonth[mk][e.date].push(e);
+  });
+
+  let html = '';
+  for (const mk of Object.keys(byMonth).sort()) {
+    const [y, m] = mk.split('-');
+    html += `<div class="list-month-group">
+      <div class="list-month-title">
+        ${MONTHS_FR[+m - 1]} ${y}
+        <span style="font-size:0.8rem;font-weight:400;font-family:'DM Sans',sans-serif;color:var(--ink3)">
+          ${Object.values(byMonth[mk]).flat().length} événement(s)
+        </span>
+      </div>`;
+
+    for (const ds of Object.keys(byMonth[mk]).sort()) {
+      const parts = ds.split('-');
+      const dt = new Date(+parts[0], +parts[1] - 1, +parts[2]);
+      const label = DAYS_FULL[dt.getDay()].charAt(0).toUpperCase() +
+                    DAYS_FULL[dt.getDay()].slice(1) + ' ' +
+                    dt.getDate() + ' ' + MONTHS_FR[dt.getMonth()];
+
+      html += `<div class="list-day-section">
+        <div class="list-day-header">${label}</div>`;
+
+      byMonth[mk][ds].forEach(e => {
+        const col = CAT_COLORS[e.cat] || CAT_COLORS.other;
+        html += `<div class="ev-row" onclick="showModal('${e.id}')">
+          <div class="ev-row-bar" style="background:${col}"></div>
+          <div class="ev-row-body">
+            <div class="ev-row-title">${esc(e.title)}</div>
+            <div class="ev-row-meta">${e.time ? e.time + ' · ' : ''}${esc(e.location || '')}</div>
+          </div>
+          <span class="cat-badge" style="background:${col}18;color:${col}">${CAT_LABELS[e.cat] || 'Autre'}</span>
+        </div>`;
+      });
+      html += `</div>`;
+    }
+    html += `</div>`;
+  }
+  body.innerHTML = html;
+}
+
+// ── Day click (modal with list if multiple) ──────────────────────────────────
+function dayClick(ds) {
+  const evs = eventsOnDate(ds);
+  if (evs.length === 0) return;
+  if (evs.length === 1) { showModal(evs[0].id); return; }
+
+  const parts = ds.split('-');
+  const dt = new Date(+parts[0], +parts[1] - 1, +parts[2]);
+  const label = DAYS_FULL[dt.getDay()].charAt(0).toUpperCase() +
+                DAYS_FULL[dt.getDay()].slice(1) + ' ' +
+                dt.getDate() + ' ' + MONTHS_FR[dt.getMonth()];
+
+  let html = `<div class="modal-overlay" onclick="if(event.target===this)closeModal()">
+    <div class="modal-box">
+      <div class="modal-top-bar" style="background:var(--green)"></div>
+      <div class="modal-content">
+        <p style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink3);margin-bottom:0.5rem">${label}</p>
+        <p class="modal-title" style="font-size:1.15rem;margin-bottom:1rem">${evs.length} événements ce jour</p>`;
+
+  evs.forEach(e => {
+    const col = CAT_COLORS[e.cat] || CAT_COLORS.other;
+    html += `<div class="ev-row" onclick="showModal('${e.id}')" style="margin-bottom:0.4rem">
+      <div class="ev-row-bar" style="background:${col}"></div>
+      <div class="ev-row-body">
+        <div class="ev-row-title">${esc(e.title)}</div>
+        <div class="ev-row-meta">${e.time || ''} ${e.location ? '· ' + esc(e.location) : ''}</div>
+      </div>
+    </div>`;
+  });
+
+  html += `<div class="modal-footer"><button class="modal-close-btn" onclick="closeModal()">Fermer</button></div>
+      </div></div></div>`;
+
+  showRawModal(html);
+}
+
+// ── Event detail modal ────────────────────────────────────────────────────────
+function showModal(id) {
+  const e = allEvents.find(x => x.id == id);
+  if (!e) return;
+  const col = CAT_COLORS[e.cat] || CAT_COLORS.other;
+  const parts = e.date.split('-');
+  const dt = new Date(+parts[0], +parts[1] - 1, +parts[2]);
+  const dateLabel = DAYS_FULL[dt.getDay()].charAt(0).toUpperCase() +
+                    DAYS_FULL[dt.getDay()].slice(1) + ' ' +
+                    dt.getDate() + ' ' + MONTHS_FR[dt.getMonth()] + ' ' + parts[0];
+
+  const html = `<div class="modal-overlay" onclick="if(event.target===this)closeModal()">
+    <div class="modal-box">
+      <div class="modal-top-bar" style="background:${col}"></div>
+      <div class="modal-content">
+        <span class="modal-cat-badge" style="background:${col}18;color:${col}">${CAT_LABELS[e.cat] || 'Autre'}</span>
+        <h2 class="modal-title">${esc(e.title)}</h2>
+        <div class="modal-meta-row"><span class="modal-icon">📅</span>${dateLabel}</div>
+        ${e.time    ? `<div class="modal-meta-row"><span class="modal-icon">🕐</span>${esc(e.time)}</div>` : ''}
+        ${e.location? `<div class="modal-meta-row"><span class="modal-icon">📍</span>${esc(e.location)}</div>` : ''}
+        ${e.description ? `<p class="modal-desc">${esc(e.description)}</p>` : ''}
+        <div class="modal-footer">
+          <span class="modal-source">
+            ${e.url    ? `<a href="${esc(e.url)}" target="_blank" rel="noopener">Voir sur ${esc(e.source || 'le site')}</a>` :
+               e.source ? `Source : ${esc(e.source)}` : ''}
+          </span>
+          <button class="modal-close-btn" onclick="closeModal()">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+
+  showRawModal(html);
+}
+
+function showRawModal(html) {
+  const el = document.getElementById('modal');
+  el.innerHTML = html;
+  el.style.display = 'block';
+}
+
+function closeModal() {
+  document.getElementById('modal').style.display = 'none';
+}
+
+// ── Status banner ─────────────────────────────────────────────────────────────
+function showStatus(msg, type = 'info', autohide = 0) {
+  const el = document.getElementById('statusBanner');
+  el.className = `status-banner ${type} show`;
+  el.textContent = msg;
+  if (autohide) setTimeout(() => { el.className = 'status-banner'; }, autohide);
+}
+
+// ── Utils ─────────────────────────────────────────────────────────────────────
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Close modal on Escape
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>

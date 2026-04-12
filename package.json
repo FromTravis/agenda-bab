@@ -1,0 +1,12 @@
+{
+  "name": "agenda-bab",
+  "version": "1.0.0",
+  "description": "Full-stack event calendar for Bayonne-Anglet-Biarritz & Pays Basque",
+  "scripts": {
+    "install:backend": "cd backend && npm install",
+    "start": "cd backend && node server.js",
+    "dev": "cd backend && npx nodemon server.js",
+    "refresh": "cd backend && node scripts/refreshEvents.js",
+    "setup": "npm run install:backend && echo '\\n✅ Setup complete! Copy backend/.env.example to backend/.env and add your ANTHROPIC_API_KEY, then run: npm start'"
+  }
+}

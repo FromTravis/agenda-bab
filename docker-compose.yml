@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  agenda-bab:
+    build: .
+    container_name: agenda-bab
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    volumes:
+      # Persist the SQLite database between restarts
+      - agenda-data:/app/backend/data
+
+volumes:
+  agenda-data:

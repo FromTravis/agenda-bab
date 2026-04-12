@@ -1,0 +1,23 @@
+{
+  "name": "agenda-bab-backend",
+  "version": "2.0.0",
+  "description": "Backend for Agenda BAB – scraper-powered, no API key required",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "refresh": "node scripts/refreshEvents.js",
+    "refresh:fast": "node scripts/refreshEvents.js --no-enrich",
+    "refresh:deep": "node scripts/refreshEvents.js --pages 10"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.3",
+    "node-cron": "^3.0.3",
+    "sql.js": "^1.12.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
