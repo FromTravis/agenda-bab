@@ -42,7 +42,7 @@
 
     body {
       font-family: 'DM Sans', sans-serif;
-      background: var(--sand);
+      background: #F8F5EA;
       color: var(--ink);
       min-height: 100vh;
     }
@@ -51,7 +51,7 @@
     .site-header {
       background: #F5F0E8;
       color: var(--ink);
-      padding: 0;
+      padding: 20px;
       position: relative;
       overflow: hidden;
       border-bottom: 1px solid var(--border);
@@ -145,7 +145,8 @@
       padding: 0 2rem;
       display: flex;
       gap: 0;
-      position: relative;
+      position: absolute;
+      bottom: 0px;
     }
 
     .nav-tab {
@@ -566,10 +567,6 @@
 <header class="site-header">
   <div class="header-illustration"></div>
   <div class="header-inner">
-    <div class="site-brand">
-      <h1>Agenda <em>BAB</em></h1>
-      <p class="tagline">Bayonne · Anglet · Biarritz · Pays Basque</p>
-    </div>
     <div class="header-actions">
       <span class="last-refresh" id="lastRefreshLabel"></span>
       <button class="settings-btn" onclick="toggleSettings()">
@@ -590,6 +587,7 @@
     <button class="nav-tab" onclick="setView('list')">Liste</button>
   </nav>
 </header>
+
 
 <!-- ── Main ─────────────────────────────────────── -->
 <main class="main">
